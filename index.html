@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Desplazamientoenvehculo_1.js"></script>
+        <script src="data/Desplazamientoapie_2.js"></script>
+        <script src="data/200824Puntosdeinters_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[13.681270590304859,-89.26036210819396],[13.747468879488622,-89.14021080569917]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<center> Mapa desarrollado por <br><a href="http://alfageomatics.com" target="_blank"> <img src="images/AG.png" height= 50 px/> </a>  <br> Teléfono: <a href="tel:+50325329827">+503 2532 9827 </a> <br> Este obra está bajo una licencia de <br><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"> Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional. </a></center>');
+		var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleMapsHbrido_0');
+        map.getPane('pane_GoogleMapsHbrido_0').style.zIndex = 400;
+        var layer_GoogleMapsHbrido_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleMapsHbrido_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleMapsHbrido_0;
+        map.addLayer(layer_GoogleMapsHbrido_0);
+        function pop_Desplazamientoenvehculo_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">TIEMPO DE DESPLAZAMIENTO (min)</th>\
+                        <td>' + (feature.properties['AA_MINS'] !== null ? autolinker.link(feature.properties['AA_MINS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MODO</th>\
+                        <td>' + (feature.properties['AA_MODE'] !== null ? autolinker.link(feature.properties['AA_MODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Desplazamientoenvehculo_1_0(feature) {
+            switch(String(feature.properties['AA_MINS'])) {
+                case '5':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(43,131,186,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '10':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(100,171,176,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '15':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(157,211,167,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '20':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(199,233,173,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '25':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(237,248,185,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '30':
+                    return {
+                pane: 'pane_Desplazamientoenvehculo_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(255,237,170,0.5)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Desplazamientoenvehculo_1');
+        map.getPane('pane_Desplazamientoenvehculo_1').style.zIndex = 401;
+        map.getPane('pane_Desplazamientoenvehculo_1').style['mix-blend-mode'] = 'normal';
+        var layer_Desplazamientoenvehculo_1 = new L.geoJson(json_Desplazamientoenvehculo_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Desplazamientoenvehculo_1',
+            layerName: 'layer_Desplazamientoenvehculo_1',
+            pane: 'pane_Desplazamientoenvehculo_1',
+            onEachFeature: pop_Desplazamientoenvehculo_1,
+            style: style_Desplazamientoenvehculo_1_0,
+        });
+        bounds_group.addLayer(layer_Desplazamientoenvehculo_1);
+        map.addLayer(layer_Desplazamientoenvehculo_1);
+        function pop_Desplazamientoapie_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">TIEMPO DE DESPLAZAMIENTO (min)</th>\
+                        <td>' + (feature.properties['AA_MINS'] !== null ? autolinker.link(feature.properties['AA_MINS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MODO</th>\
+                        <td>' + (feature.properties['AA_MODE'] !== null ? autolinker.link(feature.properties['AA_MODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Desplazamientoapie_2_0(feature) {
+            switch(String(feature.properties['AA_MINS'])) {
+                case '3':
+                    return {
+                pane: 'pane_Desplazamientoapie_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(43,131,186,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_Desplazamientoapie_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(100,171,176,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '10':
+                    return {
+                pane: 'pane_Desplazamientoapie_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(157,211,167,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '15':
+                    return {
+                pane: 'pane_Desplazamientoapie_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.4,
+                fillColor: 'rgba(199,233,173,0.5)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Desplazamientoapie_2');
+        map.getPane('pane_Desplazamientoapie_2').style.zIndex = 402;
+        map.getPane('pane_Desplazamientoapie_2').style['mix-blend-mode'] = 'normal';
+        var layer_Desplazamientoapie_2 = new L.geoJson(json_Desplazamientoapie_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Desplazamientoapie_2',
+            layerName: 'layer_Desplazamientoapie_2',
+            pane: 'pane_Desplazamientoapie_2',
+            onEachFeature: pop_Desplazamientoapie_2,
+            style: style_Desplazamientoapie_2_0,
+        });
+        bounds_group.addLayer(layer_Desplazamientoapie_2);
+        function pop_200824Puntosdeinters_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nombre'] !== null ? autolinker.link(feature.properties['Nombre'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_200824Puntosdeinters_3_0(feature) {
+            switch(String(feature.properties['Nombre'])) {
+                case 'Terreno de interés':
+                    return {
+                pane: 'pane_200824Puntosdeinters_3',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/blue-marker.svg',
+            iconSize: [76.0, 76.0]
+        }),
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_200824Puntosdeinters_3');
+        map.getPane('pane_200824Puntosdeinters_3').style.zIndex = 403;
+        map.getPane('pane_200824Puntosdeinters_3').style['mix-blend-mode'] = 'normal';
+        var layer_200824Puntosdeinters_3 = new L.geoJson(json_200824Puntosdeinters_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_200824Puntosdeinters_3',
+            layerName: 'layer_200824Puntosdeinters_3',
+            pane: 'pane_200824Puntosdeinters_3',
+            onEachFeature: pop_200824Puntosdeinters_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_200824Puntosdeinters_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_200824Puntosdeinters_3);
+        map.addLayer(layer_200824Puntosdeinters_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'200824-Puntos de interés<br /><table><tr><td style="text-align: center;"><img src="legend/200824Puntosdeinters_3_Terrenodeinterés0.png" /></td><td>Terreno de interés</td></tr></table>': layer_200824Puntosdeinters_3,'Desplazamiento a pie<br /><table><tr><td style="text-align: center;"><img src="legend/Desplazamientoapie_2_3mins0.png" /></td><td>3 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoapie_2_5mins1.png" /></td><td>5 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoapie_2_10mins2.png" /></td><td>10 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoapie_2_15mins3.png" /></td><td>15 mins</td></tr></table>': layer_Desplazamientoapie_2,'Desplazamiento en vehículo<br /><table><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_5mins0.png" /></td><td>5 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_10mins1.png" /></td><td>10 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_15mins2.png" /></td><td>15 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_20mins3.png" /></td><td>20 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_25mins4.png" /></td><td>25 mins</td></tr><tr><td style="text-align: center;"><img src="legend/Desplazamientoenvehculo_1_30mins5.png" /></td><td>30 mins</td></tr></table>': layer_Desplazamientoenvehculo_1,"Google Maps Híbrido": layer_GoogleMapsHbrido_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_200824Puntosdeinters_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Nombre'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Nombre']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_200824Puntosdeinters_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_200824Puntosdeinters_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_200824Puntosdeinters_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_200824Puntosdeinters_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_200824Puntosdeinters_3]);
+        });
+        </script>
+    </body>
+</html>
